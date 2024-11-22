@@ -25,6 +25,7 @@ class Game:
 
 
     def run(self):
+        """Run game"""
         while True:
             self.screen.fill((14, 219, 248)) #fill previous rendered screen
             # update image position and scale pos by 5
