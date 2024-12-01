@@ -1,7 +1,8 @@
 import sys
 import pygame
 from scripts.entities import PhysicsEntity
-from scripts.utils import load_img
+from scripts.tilemap import Tilemap
+from scripts.utils import load_img, load_images
 
 
 class Game:
@@ -13,6 +14,7 @@ class Game:
         # Set screen variable to a resolution of 640, 480
         self.screen = pygame.display.set_mode((640, 480))
 
+        # set second screen(display) to rescale first screen(self.screen)
         self.display = pygame.Surface((320, 240))
 
         # Set screen title
@@ -23,17 +25,22 @@ class Game:
         self.movement = [False, False] #left and right
 
         self.assets = {
+            'decor' : load_images('/tiles/decor'),
+            'grass' : load_images('/tiles/grass'),
+            'large_decor' : load_images('/tiles/large_decor'),
+            'stone' : load_images('/tiles/stone'),
             'player' : load_img('/entities/player.png')
         }
-    
+        # print(self.assets)
         self.player = PhysicsEntity(self, 'player', (50,50), (8,15))
+        self.tilemap = Tilemap(self, tile_size=16)
 
 
     def run(self):
         """Run game"""
         while True:
             self.display.fill((14, 219, 248)) #fill previous rendered screen
-         
+            self.tilemap.render(self.display)
             self.player.update((self.movement[0] - self.movement[1], 0))
             self.player.render(self.display)
             # Loop to get input event either from the keyboard or the mouse
